@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calcolatrice lavorativa</title>
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <style>
+      body {
+        text-align: center;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: url('miloo.JPG');
+        background-size: cover;
+        background-position: center;
+        background-color: black;
+        color: white;
+      }
+      h1, h3, h2 {
+        margin: 20px;
+      }
+      input[type="text"] {
+        font-size: 1em;
+        padding: 10px;
+        margin: 10px;
+        width: 80%;
+        max-width: 300px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border: none;
+        border-radius: 5px;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 1em;
+        margin: 20px;
+        cursor: pointer;
+        background-color: rgba(255, 255, 255, 0.8);
+        border: none;
+        border-radius: 5px;
+      }
+      span#risultato {
+        font-weight: bold;
+        color: rgb(0, 0, 0);
+      }
+      @media (max-width: 600px) {
+        input[type="text"], button {
+          width: 90%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>
+      Scrivimi l'orario di inizio del tuo turno: <br />
+      <input id="orario-inizio" type="text" size="10" />
+    </h1>
+    <h1>Fine orario: <br /><input id="orario-fine" type="text" size="10" /></h1>
+    <h3>
+      Insomma, vediamo un po' quanto hai guadagnato <br /><br />
+      <button id="calcola-btn">CalcolaMii</button>
+    </h3>
+    <h2>Guadagno: <span id="risultato"></span></h2>
+
+    <py-script>
+      from pyscript import Element
+
+      def funzioncina(orario_inizio: float, orario_fine: float) -> str:
+          paga = (orario_fine - orario_inizio) * 7
+          return f'{paga:.2f} euro'
+
+      def calcola_guadagno(event):
+          orario_inizio_element = Element("orario-inizio")
+          orario_fine_element = Element("orario-fine")
+          risultato_element = Element("risultato")
+          
+          orario_inizio = float(orario_inizio_element.element.value)
+          orario_fine = float(orario_fine_element.element.value)
+          
+          risultato = funzioncina(orario_inizio, orario_fine)
+          risultato_element.write(risultato)
+
+      Element("calcola-btn").element.onclick = calcola_guadagno
+    </py-script>
+  </body>
+</html>
